@@ -1,10 +1,7 @@
 package pokecenter;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,7 +13,9 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.nio.channels.Selector;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class PokeController {
 
@@ -414,7 +413,69 @@ public class PokeController {
 
         // Other Menu
 
+        HBox horiBox = new HBox();
+        root.getChildren().add(horiBox);
+        horiBox.setSpacing(3);
 
+        TextField name = new TextField();
+        name.setPrefWidth(100);
+        horiBox.getChildren().add(name);
+
+        ComboBox<String> primarytype = new ComboBox<String>();
+        primarytype.setPromptText("Primär Typ");
+        for (Type type : Type.values()) {
+            primarytype.getItems().add(type.toString());
+        }
+        horiBox.getChildren().add(primarytype);
+
+        ComboBox<String> secondarytype = new ComboBox<String>();
+        secondarytype.setPromptText("Sekundär Typ");
+        for (Type type : Type.values()) {
+            secondarytype.getItems().add(type.toString());
+        }
+        horiBox.getChildren().add(secondarytype);
+
+        TextField total = new TextField();
+        total.setPrefWidth(50);
+        horiBox.getChildren().add(total);
+
+        TextField hp = new TextField();
+        hp.setPrefWidth(50);
+        horiBox.getChildren().add(hp);
+
+        TextField attack = new TextField();
+        attack.setPrefWidth(50);
+        horiBox.getChildren().add(attack);
+
+        TextField defense = new TextField();
+        defense.setPrefWidth(50);
+        horiBox.getChildren().add(defense);
+
+        TextField spAtt = new TextField();
+        spAtt.setPrefWidth(50);
+        horiBox.getChildren().add(spAtt);
+
+        TextField spDf = new TextField();
+        spDf.setPrefWidth(50);
+        horiBox.getChildren().add(spDf);
+
+        TextField speed = new TextField();
+        speed.setPrefWidth(50);
+        horiBox.getChildren().add(speed);
+
+        ComboBox<String> gen = new ComboBox<String>();
+        gen.setPromptText("Gen");
+        gen.getItems().addAll("1", "2" ,"3", "4", "5", "6", "7", "8");
+        horiBox.getChildren().add(gen);
+
+        ComboBox<String> legendary = new ComboBox<String>();
+        legendary.setPromptText("Legendary");
+        legendary.getItems().addAll("Legendary", "not Legendary");
+        horiBox.getChildren().add(legendary);
+
+        Button addPoke = new Button();
+        addPoke.setText("Add");
+        horiBox.getChildren().add(addPoke);
 
         return root;
     }
