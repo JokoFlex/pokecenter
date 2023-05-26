@@ -70,10 +70,8 @@ public class CSVReader {
                 int newSPAttack = Integer.parseInt(parts[8]);
                 int newSPDefence = Integer.parseInt(parts[9]);
                 int newSpeed = Integer.parseInt(parts[10]);
-                int generation = Integer.parseInt(parts[11]);
-                Boolean legendary = Boolean.parseBoolean(parts[12]);
 
-                pokeList.add(new Pokemon(newID, newName, newType1, newType2, newTotal,newHP, newAttack, newDefense, newSPAttack, newSPDefence, newSpeed, generation, legendary));
+                pokeList.add(new Pokemon(newID, newName, newType1, newType2, newTotal,newHP, newAttack, newDefense, newSPAttack, newSPDefence, newSpeed));
             }
             catch (Exception e)
             {

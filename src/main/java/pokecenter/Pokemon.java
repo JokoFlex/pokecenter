@@ -20,7 +20,7 @@ enum Type {
     FIGHTING,
     ROCK,
     GHOST,
-    DRAGON
+    DRAGON,
 }
 
 public class Pokemon {
@@ -35,10 +35,8 @@ public class Pokemon {
     int sp_attack;
     int sp_defense;
     int speed;
-    int generation;
-    Boolean legendary;
 
-    public Pokemon(int id, String name, Type type1, Optional<Type> type2, int total, int hp, int attack, int defense, int sp_attack, int sp_defense, int speed, int generation, Boolean legendary) {
+    public Pokemon(int id, String name, Type type1, Optional<Type> type2, int total, int hp, int attack, int defense, int sp_attack, int sp_defense, int speed) {
         this.id = id;
         this.name = name;
         this.type1 = type1;
@@ -50,8 +48,6 @@ public class Pokemon {
         this.sp_attack = sp_attack;
         this.sp_defense = sp_defense;
         this.speed = speed;
-        this.generation = generation;
-        this.legendary = legendary;
     }
 
     @Override
@@ -66,9 +62,7 @@ public class Pokemon {
                 defense + "," +
                 sp_attack + "," +
                 sp_defense + "," +
-                speed + "," +
-                generation + "," +
-                legendary;
+                speed;
     }
 
     public int getId() {
@@ -115,13 +109,5 @@ public class Pokemon {
 
     public int getSpeed() {
         return speed;
-    }
-
-    public int getGeneration() {
-        return generation;
-    }
-
-    public Boolean getLegendary() {
-        return legendary;
     }
 }

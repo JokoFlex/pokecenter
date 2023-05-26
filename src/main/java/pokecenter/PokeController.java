@@ -1,5 +1,7 @@
 package pokecenter;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,7 +17,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.channels.Selector;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Hashtable;
+import java.util.Optional;
 
 public class PokeController {
 
@@ -372,42 +376,6 @@ public class PokeController {
         });
         pokeTable.getColumns().add(speedCol);
 
-        TableColumn<Pokemon, Integer> generationCol = new TableColumn<>("Gen.");
-        generationCol.setCellValueFactory(new PropertyValueFactory("generation"));
-        pokeTable.getColumns().add(generationCol);
-
-        TableColumn<Pokemon, Boolean> legendaryCol = new TableColumn<>("Legendär");
-        legendaryCol.setCellValueFactory(new PropertyValueFactory("legendary"));
-        legendaryCol.setCellFactory(column -> {
-            TableCell<Pokemon, Boolean> cell = new TableCell<>() {
-                @Override
-                protected void updateItem(Boolean item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null || !item) {
-                        setGraphic(null);
-                        setText(null);
-                        setStyle("");
-                    } else {
-                        setText(null);
-
-                        ImageView imgV = new ImageView();
-                        try {
-                            Image img = new Image(new FileInputStream(System.getProperty("user.dir") + "/resources/images/legendary.png"));
-                            imgV = new ImageView(img);
-                            imgV.setFitWidth(60);
-                            imgV.setFitHeight(20);
-
-                        } catch (FileNotFoundException e) {}
-
-                        setGraphic(imgV);
-                    }
-                }
-            };
-            return cell;
-        });
-        pokeTable.getColumns().add(legendaryCol);
-
-
         pokeTable.setPlaceholder(new Label("Keine Pokemon verfügbar"));
         root.getChildren().add(pokeTable);
 
@@ -419,6 +387,7 @@ public class PokeController {
 
         TextField name = new TextField();
         name.setPrefWidth(100);
+        name.setPromptText("Name");
         horiBox.getChildren().add(name);
 
         ComboBox<String> primarytype = new ComboBox<String>();
@@ -428,54 +397,74 @@ public class PokeController {
         }
         horiBox.getChildren().add(primarytype);
 
+
         ComboBox<String> secondarytype = new ComboBox<String>();
         secondarytype.setPromptText("Sekundär Typ");
         for (Type type : Type.values()) {
             secondarytype.getItems().add(type.toString());
         }
+        secondarytype.getItems().add("");
         horiBox.getChildren().add(secondarytype);
+
 
         TextField total = new TextField();
         total.setPrefWidth(50);
+        total.setPromptText("total");
         horiBox.getChildren().add(total);
 
         TextField hp = new TextField();
         hp.setPrefWidth(50);
+        hp.setPromptText("hp");
         horiBox.getChildren().add(hp);
 
         TextField attack = new TextField();
         attack.setPrefWidth(50);
+        attack.setPromptText("attack");
         horiBox.getChildren().add(attack);
 
         TextField defense = new TextField();
+        defense.setPromptText("defense");
         defense.setPrefWidth(50);
         horiBox.getChildren().add(defense);
 
         TextField spAtt = new TextField();
         spAtt.setPrefWidth(50);
+        spAtt.setPromptText("special Att");
         horiBox.getChildren().add(spAtt);
 
         TextField spDf = new TextField();
         spDf.setPrefWidth(50);
+        spDf.setPromptText("special Def");
         horiBox.getChildren().add(spDf);
 
         TextField speed = new TextField();
         speed.setPrefWidth(50);
+        speed.setPromptText("speed");
         horiBox.getChildren().add(speed);
-
-        ComboBox<String> gen = new ComboBox<String>();
-        gen.setPromptText("Gen");
-        gen.getItems().addAll("1", "2" ,"3", "4", "5", "6", "7", "8");
-        horiBox.getChildren().add(gen);
-
-        ComboBox<String> legendary = new ComboBox<String>();
-        legendary.setPromptText("Legendary");
-        legendary.getItems().addAll("Legendary", "not Legendary");
-        horiBox.getChildren().add(legendary);
 
         Button addPoke = new Button();
         addPoke.setText("Add");
         horiBox.getChildren().add(addPoke);
+        addPoke.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String selectedValue = secondarytype.getValue();
+                Optional<Type> optionalSecondary;
+
+                if(selectedValue.equals(""))
+                    optionalSecondary = Optional.empty();
+                else{
+                    optionalSecondary = Optional.of(Type.valueOf(selectedValue.toUpperCase()));
+                }
+
+                int id = 899;
+
+
+                Pokemon newPoke = new Pokemon(id, name.getText(), Type.valueOf(primarytype.getValue()), optionalSecondary, Integer.parseInt(total.getText()), Integer.parseInt(hp.getText()), Integer.parseInt(attack.getText()), Integer.parseInt(defense.getText()), Integer.parseInt(spAtt.getText()), Integer.parseInt(spDf.getText()), Integer.parseInt(speed.getText()));
+                id += 1;
+                pokeTable.getItems().add(newPoke);
+            }
+        });
 
         return root;
     }
