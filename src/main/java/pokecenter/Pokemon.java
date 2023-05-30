@@ -110,4 +110,49 @@ public class Pokemon {
     public int getSpeed() {
         return speed;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType1(Type type1) {
+        this.type1 = type1;
+    }
+
+    public void setType2(Optional<Type> type2) {
+        this.type2 = type2;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public void setSp_attack(int sp_attack) {
+        this.sp_attack = sp_attack;
+    }
+
+    public void setSp_defense(int sp_defense) {
+        this.sp_defense = sp_defense;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 }
+

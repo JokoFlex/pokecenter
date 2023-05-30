@@ -2,6 +2,7 @@ package pokecenter;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,10 +17,7 @@ import javafx.scene.shape.Rectangle;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.channels.Selector;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.Hashtable;
-import java.util.Optional;
+import java.util.*;
 
 public class PokeController {
 
@@ -42,7 +40,6 @@ public class PokeController {
     public VBox initializeView() {
         fillPokeTable();
         VBox root = new VBox();
-
 
         // Table
         TableColumn<Pokemon, Integer> idCol = new TableColumn<>("ID");
@@ -79,7 +76,8 @@ public class PokeController {
                             imgV.setFitHeight(20);
 
                             hbox.getChildren().add(imgV);
-                        } catch (FileNotFoundException e) {}
+                        } catch (FileNotFoundException e) {
+                        }
 
                         Label label = new Label(item);
                         hbox.getChildren().add(label);
@@ -118,7 +116,8 @@ public class PokeController {
                             imgV.setFitHeight(20);
 
                             hbox.getChildren().add(imgV);
-                        } catch (FileNotFoundException e) {}
+                        } catch (FileNotFoundException e) {
+                        }
 
                         Label label = new Label(item);
                         hbox.getChildren().add(label);
@@ -151,7 +150,7 @@ public class PokeController {
                         stackPane.setPrefSize(60, 20);
                         stackPane.setAlignment(Pos.CENTER_LEFT);
 
-                        Rectangle rectangle = new Rectangle(((float) item - lowestTotal) / (highestTotal-lowestTotal) * 53.0, 20, Color.rgb(172, 164, 224));
+                        Rectangle rectangle = new Rectangle(((float) item - lowestTotal) / (highestTotal - lowestTotal) * 53.0, 20, Color.rgb(172, 164, 224));
                         stackPane.getChildren().add(rectangle);
 
                         String labelValue = String.valueOf(item);
@@ -186,7 +185,7 @@ public class PokeController {
                         stackPane.setPrefSize(60, 20);
                         stackPane.setAlignment(Pos.CENTER_LEFT);
 
-                        Rectangle rectangle = new Rectangle(((float) item - lowestHP) / (highestHP-lowestHP) * 53.0, 20, Color.rgb(235, 64, 52));
+                        Rectangle rectangle = new Rectangle(((float) item - lowestHP) / (highestHP - lowestHP) * 53.0, 20, Color.rgb(235, 64, 52));
                         stackPane.getChildren().add(rectangle);
 
                         String labelValue = String.valueOf(item);
@@ -221,7 +220,7 @@ public class PokeController {
                         stackPane.setPrefSize(60, 20);
                         stackPane.setAlignment(Pos.CENTER_LEFT);
 
-                        Rectangle rectangle = new Rectangle(((float) item - lowestAttack) / (highestAttack-lowestAttack) * 53.0, 20, Color.rgb(52, 235, 67));
+                        Rectangle rectangle = new Rectangle(((float) item - lowestAttack) / (highestAttack - lowestAttack) * 53.0, 20, Color.rgb(52, 235, 67));
                         stackPane.getChildren().add(rectangle);
 
                         String labelValue = String.valueOf(item);
@@ -256,7 +255,7 @@ public class PokeController {
                         stackPane.setPrefSize(60, 20);
                         stackPane.setAlignment(Pos.CENTER_LEFT);
 
-                        Rectangle rectangle = new Rectangle(((float) item - lowestDefense) / (highestDefense-lowestDefense) * 53.0, 20, Color.rgb(64, 162, 227));
+                        Rectangle rectangle = new Rectangle(((float) item - lowestDefense) / (highestDefense - lowestDefense) * 53.0, 20, Color.rgb(64, 162, 227));
                         stackPane.getChildren().add(rectangle);
 
                         String labelValue = String.valueOf(item);
@@ -291,7 +290,7 @@ public class PokeController {
                         stackPane.setPrefSize(60, 20);
                         stackPane.setAlignment(Pos.CENTER_LEFT);
 
-                        Rectangle rectangle = new Rectangle(((float) item - lowestSp_Attack) / (highestSp_Attack-lowestSp_Attack) * 53.0, 20, Color.rgb(229, 52, 235));
+                        Rectangle rectangle = new Rectangle(((float) item - lowestSp_Attack) / (highestSp_Attack - lowestSp_Attack) * 53.0, 20, Color.rgb(229, 52, 235));
                         stackPane.getChildren().add(rectangle);
 
                         String labelValue = String.valueOf(item);
@@ -307,7 +306,8 @@ public class PokeController {
         pokeTable.getColumns().add(sp_attackCol);
 
         TableColumn<Pokemon, Integer> sp_defenseCol = new TableColumn<>("Sp. Defense");
-        sp_defenseCol.setCellValueFactory(new PropertyValueFactory("sp_defense"));sp_attackCol.setPrefWidth(60);
+        sp_defenseCol.setCellValueFactory(new PropertyValueFactory("sp_defense"));
+        sp_attackCol.setPrefWidth(60);
         sp_defenseCol.setPrefWidth(60);
         sp_defenseCol.setResizable(false);
         sp_defenseCol.setCellFactory(column -> {
@@ -326,7 +326,7 @@ public class PokeController {
                         stackPane.setPrefSize(60, 20);
                         stackPane.setAlignment(Pos.CENTER_LEFT);
 
-                        Rectangle rectangle = new Rectangle(((float) item - lowestSp_Defense) / (highestSp_Defense-lowestSp_Defense) * 53.0, 20, Color.rgb(159, 52, 235));
+                        Rectangle rectangle = new Rectangle(((float) item - lowestSp_Defense) / (highestSp_Defense - lowestSp_Defense) * 53.0, 20, Color.rgb(159, 52, 235));
                         stackPane.getChildren().add(rectangle);
 
                         String labelValue = String.valueOf(item);
@@ -361,7 +361,7 @@ public class PokeController {
                         stackPane.setPrefSize(60, 20);
                         stackPane.setAlignment(Pos.CENTER_LEFT);
 
-                        Rectangle rectangle = new Rectangle(((float) item - lowestSpeed) / (highestSpeed-lowestSpeed) * 53.0, 20, Color.rgb(52, 235, 229));
+                        Rectangle rectangle = new Rectangle(((float) item - lowestSpeed) / (highestSpeed - lowestSpeed) * 53.0, 20, Color.rgb(52, 235, 229));
                         stackPane.getChildren().add(rectangle);
 
                         String labelValue = String.valueOf(item);
@@ -445,26 +445,184 @@ public class PokeController {
         Button addPoke = new Button();
         addPoke.setText("Add");
         horiBox.getChildren().add(addPoke);
+
+        Button safeCh = new Button();
+        safeCh.setText("safe Changes");
+        horiBox.getChildren().add(safeCh);
+
+        //teams
+        HBox horiBox1 = new HBox();
+        root.getChildren().add(horiBox1);
+        horiBox1.setPadding(new Insets(10, 0, 0, 0));
+        horiBox1.setSpacing(5);
+
+        TextArea teamsArea = new TextArea();
+        teamsArea.setPrefWidth(300);
+        teamsArea.setPromptText("Teams:");
+        horiBox1.getChildren().add(teamsArea);
+
+        VBox vertBox = new VBox();
+        horiBox1.getChildren().add(vertBox);
+        vertBox.setSpacing(3);
+
+        TextField teamName = new TextField();
+        teamName.setPromptText("Teamname: ");
+        teamName.setPrefWidth(520);
+        vertBox.getChildren().add(teamName);
+
+
+        HBox horiBox2 = new HBox();
+        vertBox.getChildren().add(horiBox2);
+
+        TextField Pokemon1 = new TextField();
+        Pokemon1.setPromptText("Pokemon 1: ");
+        Pokemon1.setPrefWidth(260);
+        horiBox2.getChildren().add(Pokemon1);
+
+        TextField Pokemon6 = new TextField();
+        Pokemon6.setPromptText("Pokemon 6: ");
+        Pokemon6.setPrefWidth(260);
+        horiBox2.getChildren().add(Pokemon6);
+
+        HBox horiBox3 = new HBox();
+        vertBox.getChildren().add(horiBox3);
+
+        TextField Pokemon2 = new TextField();
+        Pokemon2.setPromptText("Pokemon 2: ");
+        Pokemon2.setPrefWidth(260);
+        horiBox3.getChildren().add(Pokemon2);
+
+        TextField Pokemon7 = new TextField();
+        Pokemon7.setPromptText("Pokemon 7: ");
+        Pokemon7.setPrefWidth(260);
+        horiBox3.getChildren().add(Pokemon7);
+
+        HBox horiBox4 = new HBox();
+        vertBox.getChildren().add(horiBox4);
+
+        TextField Pokemon3 = new TextField();
+        Pokemon3.setPromptText("Pokemon 3: ");
+        Pokemon3.setPrefWidth(260);
+        horiBox4.getChildren().add(Pokemon3);
+
+        TextField Pokemon8 = new TextField();
+        Pokemon8.setPromptText("Pokemon 8: ");
+        Pokemon8.setPrefWidth(260);
+        horiBox4.getChildren().add(Pokemon8);
+
+        HBox horiBox5 = new HBox();
+        vertBox.getChildren().add(horiBox5);
+
+        TextField Pokemon4 = new TextField();
+        Pokemon4.setPromptText("Pokemon 4: ");
+        Pokemon4.setPrefWidth(260);
+        horiBox5.getChildren().add(Pokemon4);
+
+        TextField Pokemon9 = new TextField();
+        Pokemon9.setPromptText("Pokemon 9: ");
+        Pokemon9.setPrefWidth(260);
+        horiBox5.getChildren().add(Pokemon9);
+
+        HBox horiBox6 = new HBox();
+        vertBox.getChildren().add(horiBox6);
+
+        TextField Pokemon5 = new TextField();
+        Pokemon5.setPromptText("Pokemon 5: ");
+        Pokemon5.setPrefWidth(260);
+        horiBox6.getChildren().add(Pokemon5);
+
+        TextField Pokemon10 = new TextField();
+        Pokemon10.setPromptText("Pokemon 10: ");
+        Pokemon10.setPrefWidth(260);
+        horiBox6.getChildren().add(Pokemon10);
+
+
+        Button addTeam = new Button();
+        addTeam.setText("Add Team to list");
+        addTeam.setPrefWidth(825);
+        root.getChildren().add(addTeam);
+
+        Button safeTeam = new Button();
+        safeTeam.setText("Safe Team Changes");
+        safeTeam.setPrefWidth(825);
+        root.getChildren().add(safeTeam);
+
         addPoke.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 String selectedValue = secondarytype.getValue();
                 Optional<Type> optionalSecondary;
 
-                if(selectedValue.equals(""))
+                if (selectedValue.equals(""))
                     optionalSecondary = Optional.empty();
-                else{
+                else {
                     optionalSecondary = Optional.of(Type.valueOf(selectedValue.toUpperCase()));
                 }
 
                 int id = 899;
-
 
                 Pokemon newPoke = new Pokemon(id, name.getText(), Type.valueOf(primarytype.getValue()), optionalSecondary, Integer.parseInt(total.getText()), Integer.parseInt(hp.getText()), Integer.parseInt(attack.getText()), Integer.parseInt(defense.getText()), Integer.parseInt(spAtt.getText()), Integer.parseInt(spDf.getText()), Integer.parseInt(speed.getText()));
                 id += 1;
                 pokeTable.getItems().add(newPoke);
             }
         });
+
+
+        pokeTable.setRowFactory(tv -> {
+            TableRow<Pokemon> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                Pokemon rowData = row.getItem();
+                name.setText(rowData.getName());
+                primarytype.setValue(rowData.getType1().toString());
+                secondarytype.setValue(rowData.getType2().toString());
+                total.setText(String.valueOf(rowData.getTotal()));
+                hp.setText(String.valueOf(rowData.getHp()));
+                attack.setText(String.valueOf(rowData.getAttack()));
+                defense.setText(String.valueOf(rowData.getDefense()));
+                spAtt.setText(String.valueOf(rowData.getSp_attack()));
+                spDf.setText(String.valueOf(rowData.getSp_defense()));
+                speed.setText(String.valueOf(rowData.getSpeed()));
+            });
+            return row;
+        });
+
+        safeCh.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Pokemon selectedPoke = (Pokemon) pokeTable.getSelectionModel().getSelectedItem();
+                selectedPoke.setName(name.getText());
+                selectedPoke.setType1(Type.valueOf(primarytype.getValue().toUpperCase()));
+
+                if (secondarytype.getValue().isEmpty())
+                    selectedPoke.setType2(Optional.empty());
+                else
+                    selectedPoke.setType2(Optional.of(Type.valueOf(secondarytype.getValue().toUpperCase())));
+
+                selectedPoke.setTotal(Integer.parseInt(total.getText()));
+                selectedPoke.setHp(Integer.parseInt(hp.getText()));
+                selectedPoke.setAttack(Integer.parseInt(attack.getText()));
+                selectedPoke.setDefense(Integer.parseInt(defense.getText()));
+                selectedPoke.setSp_attack(Integer.parseInt(spAtt.getText()));
+                selectedPoke.setSp_defense(Integer.parseInt(spDf.getText()));
+                selectedPoke.setSpeed(Integer.parseInt(speed.getText()));
+                pokeTable.refresh();
+            }
+        });
+
+        addTeam.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //todo
+            }
+        });
+
+        safeTeam.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //todo
+            }
+        });
+
 
         return root;
     }
