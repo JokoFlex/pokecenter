@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -456,10 +457,9 @@ public class PokeController {
         horiBox1.setPadding(new Insets(10, 0, 0, 0));
         horiBox1.setSpacing(5);
 
-        TextArea teamsArea = new TextArea();
-        teamsArea.setPrefWidth(300);
-        teamsArea.setPromptText("Teams:");
-        horiBox1.getChildren().add(teamsArea);
+        ListView<String> teamList = new ListView<String>();
+        teamList.setPrefWidth(300);
+        horiBox1.getChildren().add(teamList);
 
         VBox vertBox = new VBox();
         horiBox1.getChildren().add(vertBox);
@@ -536,6 +536,16 @@ public class PokeController {
         Pokemon10.setPrefWidth(260);
         horiBox6.getChildren().add(Pokemon10);
 
+        Button selectPokeToAdd = new Button();
+        selectPokeToAdd.setText("Start selecting Pokemon to add");
+        selectPokeToAdd.setPrefWidth(825);
+        root.getChildren().add(selectPokeToAdd);
+
+        Button StopSelectPokeToAdd = new Button();
+        StopSelectPokeToAdd.setText("Stop selecting Pokemon to add");
+        StopSelectPokeToAdd.setDisable(true);
+        StopSelectPokeToAdd.setPrefWidth(825);
+        root.getChildren().add(StopSelectPokeToAdd);
 
         Button addTeam = new Button();
         addTeam.setText("Add Team to list");
@@ -546,6 +556,11 @@ public class PokeController {
         safeTeam.setText("Safe Team Changes");
         safeTeam.setPrefWidth(825);
         root.getChildren().add(safeTeam);
+
+        Button removeTeam = new Button();
+        removeTeam.setText("Remove Team");
+        removeTeam.setPrefWidth(825);
+        root.getChildren().add(removeTeam);
 
         addPoke.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -567,10 +582,61 @@ public class PokeController {
             }
         });
 
-
+        final int[] counter = {0};
         pokeTable.setRowFactory(tv -> {
+            counter[0] = 0;
             TableRow<Pokemon> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
+                if (selectPokeToAdd.isDisabled()) {
+                    switch (counter[0]) {
+                        case 0:
+                            Pokemon1.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        case 1:
+                            Pokemon2.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        case 2:
+                            Pokemon3.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        case 3:
+                            Pokemon4.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        case 4:
+                            Pokemon5.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        case 5:
+                            Pokemon6.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        case 6:
+                            Pokemon7.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        case 7:
+                            Pokemon8.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        case 8:
+                            Pokemon9.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        case 9:
+                            Pokemon10.setText(row.getItem().getName());
+                            counter[0]++;
+                            break;
+                        default:
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText("You can only select 10 Pokemon per team");
+                            alert.showAndWait();
+                            break;
+                    }
+                }
                 Pokemon rowData = row.getItem();
                 name.setText(rowData.getName());
                 primarytype.setValue(rowData.getType1().toString());
@@ -609,17 +675,94 @@ public class PokeController {
             }
         });
 
+        selectPokeToAdd.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                selectPokeToAdd.setDisable(true);
+                StopSelectPokeToAdd.setDisable(false);
+            }
+        });
+
+        StopSelectPokeToAdd.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                selectPokeToAdd.setDisable(false);
+                StopSelectPokeToAdd.setDisable(true);
+            }
+        });
+
         addTeam.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //todo
+                String team = teamName.getText() + ": " + Pokemon1.getText() + ", " + Pokemon2.getText() + ", " + Pokemon3.getText() + ", " + Pokemon4.getText() + ", " + Pokemon5.getText() + ", " + Pokemon6.getText() + ", " + Pokemon7.getText() + ", " + Pokemon8.getText() + ", " + Pokemon9.getText() + ", " + Pokemon10.getText();
+                if (teamName.getText().isEmpty() || Pokemon1.getText().isEmpty() || Pokemon2.getText().isEmpty() || Pokemon3.getText().isEmpty() || Pokemon4.getText().isEmpty() || Pokemon5.getText().isEmpty() || Pokemon6.getText().isEmpty() || Pokemon7.getText().isEmpty() || Pokemon8.getText().isEmpty() || Pokemon9.getText().isEmpty() || Pokemon10.getText().isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Please fill in all fields");
+                    alert.showAndWait();
+                    return;
+                } else {
+                    teamList.getItems().add(team);
+
+                    teamName.setText("");
+                    Pokemon1.setText("");
+                    Pokemon2.setText("");
+                    Pokemon3.setText("");
+                    Pokemon4.setText("");
+                    Pokemon5.setText("");
+                    Pokemon6.setText("");
+                    Pokemon7.setText("");
+                    Pokemon8.setText("");
+                    Pokemon9.setText("");
+                    Pokemon10.setText("");
+                }
+            }
+        });
+
+        teamList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                String selectedTeam = teamList.getSelectionModel().getSelectedItem();
+                String[] team = selectedTeam.split(": ");
+                String[] pokemon = team[1].split(", ");
+                teamName.setText(team[0]);
+                Pokemon1.setText(pokemon[0]);
+                Pokemon2.setText(pokemon[1]);
+                Pokemon3.setText(pokemon[2]);
+                Pokemon4.setText(pokemon[3]);
+                Pokemon5.setText(pokemon[4]);
+                Pokemon6.setText(pokemon[5]);
+                Pokemon7.setText(pokemon[6]);
+                Pokemon8.setText(pokemon[7]);
+                Pokemon9.setText(pokemon[8]);
+                Pokemon10.setText(pokemon[9]);
             }
         });
 
         safeTeam.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //todo
+                String team = teamName.getText() + ": " + Pokemon1.getText() + ", " + Pokemon2.getText() + ", " + Pokemon3.getText() + ", " + Pokemon4.getText() + ", " + Pokemon5.getText() + ", " + Pokemon6.getText() + ", " + Pokemon7.getText() + ", " + Pokemon8.getText() + ", " + Pokemon9.getText() + ", " + Pokemon10.getText();
+                teamList.getItems().remove(teamList.getSelectionModel().getSelectedItem());
+                teamList.getItems().add(team);
+                teamName.setText("");
+                Pokemon1.setText("");
+                Pokemon2.setText("");
+                Pokemon3.setText("");
+                Pokemon4.setText("");
+                Pokemon5.setText("");
+                Pokemon6.setText("");
+                Pokemon7.setText("");
+                Pokemon8.setText("");
+                Pokemon9.setText("");
+                Pokemon10.setText("");
+            }
+        });
+
+        removeTeam.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                teamList.getItems().remove(teamList.getSelectionModel().getSelectedItem());
             }
         });
 
