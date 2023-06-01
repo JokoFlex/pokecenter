@@ -4,20 +4,28 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.nio.channels.Selector;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.format.TextStyle;
 import java.util.*;
 
 public class PokeController {
@@ -41,18 +49,25 @@ public class PokeController {
     public VBox initializeView() {
         fillPokeTable();
         VBox root = new VBox();
+        pokeTable.setPrefHeight(550);
 
         // Table
         TableColumn<Pokemon, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory("id"));
+        idCol.setResizable(false);
+        idCol.setPrefWidth(40);
         pokeTable.getColumns().add(idCol);
 
         TableColumn<Pokemon, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory("name"));
+        nameCol.setResizable(false);
+        nameCol.setPrefWidth(183);
         pokeTable.getColumns().add(nameCol);
 
         TableColumn<Pokemon, String> type1Col = new TableColumn<>("Primärtyp");
         type1Col.setCellValueFactory(new PropertyValueFactory("type1"));
+        type1Col.setResizable(false);
+        type1Col.setPrefWidth(80);
         type1Col.setCellFactory(column -> {
             TableCell<Pokemon, String> cell = new TableCell<>() {
                 @Override
@@ -93,6 +108,8 @@ public class PokeController {
 
         TableColumn<Pokemon, String> type2Col = new TableColumn<>("Sekundärtyp");
         type2Col.setCellValueFactory(new PropertyValueFactory("type2"));
+        type2Col.setResizable(false);
+        type2Col.setPrefWidth(80);
         type2Col.setCellFactory(column -> {
             TableCell<Pokemon, String> cell = new TableCell<>() {
                 @Override
@@ -394,7 +411,7 @@ public class PokeController {
         ComboBox<String> primarytype = new ComboBox<String>();
         primarytype.setPromptText("Primär Typ");
         for (Type type : Type.values()) {
-            primarytype.getItems().add(type.toString());
+            primarytype.getItems().add(type.toString().toLowerCase());
         }
         horiBox.getChildren().add(primarytype);
 
@@ -402,7 +419,7 @@ public class PokeController {
         ComboBox<String> secondarytype = new ComboBox<String>();
         secondarytype.setPromptText("Sekundär Typ");
         for (Type type : Type.values()) {
-            secondarytype.getItems().add(type.toString());
+            secondarytype.getItems().add(type.toString().toLowerCase());
         }
         secondarytype.getItems().add("");
         horiBox.getChildren().add(secondarytype);
@@ -448,7 +465,7 @@ public class PokeController {
         horiBox.getChildren().add(addPoke);
 
         Button safeCh = new Button();
-        safeCh.setText("safe Changes");
+        safeCh.setText("Update");
         horiBox.getChildren().add(safeCh);
 
         //teams
@@ -459,6 +476,7 @@ public class PokeController {
 
         ListView<String> teamList = new ListView<String>();
         teamList.setPrefWidth(300);
+        teamList.setPrefHeight(200);
         horiBox1.getChildren().add(teamList);
 
         VBox vertBox = new VBox();
@@ -471,70 +489,28 @@ public class PokeController {
         vertBox.getChildren().add(teamName);
 
 
-        HBox horiBox2 = new HBox();
-        vertBox.getChildren().add(horiBox2);
+        GridPane teamGrid = new GridPane();
+        for (int i = 0; i < 6; i++) {
+            VBox vb = new VBox();
+            vb.setPrefWidth(170);
+            vb.setPrefHeight(30);
+            Path p = Paths.get(System.getProperty("user.dir"), "resources", "images", "plus.png");
+            ImageView imgV = new ImageView();
+            imgV.setFitWidth(50);
+            imgV.setFitHeight(50);
+            try {
+                InputStream input = new FileInputStream(p.toString());
+                imgV.setImage(new Image(input));
+            } catch (FileNotFoundException e) {
+            }
+            vb.getChildren().add(imgV);
 
-        TextField Pokemon1 = new TextField();
-        Pokemon1.setPromptText("Pokemon 1: ");
-        Pokemon1.setPrefWidth(260);
-        horiBox2.getChildren().add(Pokemon1);
-
-        TextField Pokemon6 = new TextField();
-        Pokemon6.setPromptText("Pokemon 6: ");
-        Pokemon6.setPrefWidth(260);
-        horiBox2.getChildren().add(Pokemon6);
-
-        HBox horiBox3 = new HBox();
-        vertBox.getChildren().add(horiBox3);
-
-        TextField Pokemon2 = new TextField();
-        Pokemon2.setPromptText("Pokemon 2: ");
-        Pokemon2.setPrefWidth(260);
-        horiBox3.getChildren().add(Pokemon2);
-
-        TextField Pokemon7 = new TextField();
-        Pokemon7.setPromptText("Pokemon 7: ");
-        Pokemon7.setPrefWidth(260);
-        horiBox3.getChildren().add(Pokemon7);
-
-        HBox horiBox4 = new HBox();
-        vertBox.getChildren().add(horiBox4);
-
-        TextField Pokemon3 = new TextField();
-        Pokemon3.setPromptText("Pokemon 3: ");
-        Pokemon3.setPrefWidth(260);
-        horiBox4.getChildren().add(Pokemon3);
-
-        TextField Pokemon8 = new TextField();
-        Pokemon8.setPromptText("Pokemon 8: ");
-        Pokemon8.setPrefWidth(260);
-        horiBox4.getChildren().add(Pokemon8);
-
-        HBox horiBox5 = new HBox();
-        vertBox.getChildren().add(horiBox5);
-
-        TextField Pokemon4 = new TextField();
-        Pokemon4.setPromptText("Pokemon 4: ");
-        Pokemon4.setPrefWidth(260);
-        horiBox5.getChildren().add(Pokemon4);
-
-        TextField Pokemon9 = new TextField();
-        Pokemon9.setPromptText("Pokemon 9: ");
-        Pokemon9.setPrefWidth(260);
-        horiBox5.getChildren().add(Pokemon9);
-
-        HBox horiBox6 = new HBox();
-        vertBox.getChildren().add(horiBox6);
-
-        TextField Pokemon5 = new TextField();
-        Pokemon5.setPromptText("Pokemon 5: ");
-        Pokemon5.setPrefWidth(260);
-        horiBox6.getChildren().add(Pokemon5);
-
-        TextField Pokemon10 = new TextField();
-        Pokemon10.setPromptText("Pokemon 10: ");
-        Pokemon10.setPrefWidth(260);
-        horiBox6.getChildren().add(Pokemon10);
+            TextField pokemon = new TextField();
+            vb.getChildren().add(pokemon);
+            pokemon.setPromptText("Pokemon " + (i + 1) + ": ");
+            teamGrid.add(vb, i % 3, i / 3, 1, 1);
+        }
+        vertBox.getChildren().add(teamGrid);
 
         Button selectPokeToAdd = new Button();
         selectPokeToAdd.setText("Start selecting Pokemon to add");
@@ -588,59 +564,19 @@ public class PokeController {
             TableRow<Pokemon> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (selectPokeToAdd.isDisabled()) {
-                    switch (counter[0]) {
-                        case 0:
-                            Pokemon1.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        case 1:
-                            Pokemon2.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        case 2:
-                            Pokemon3.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        case 3:
-                            Pokemon4.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        case 4:
-                            Pokemon5.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        case 5:
-                            Pokemon6.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        case 6:
-                            Pokemon7.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        case 7:
-                            Pokemon8.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        case 8:
-                            Pokemon9.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        case 9:
-                            Pokemon10.setText(row.getItem().getName());
-                            counter[0]++;
-                            break;
-                        default:
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Error");
-                            alert.setHeaderText("You can only select 10 Pokemon per team");
-                            alert.showAndWait();
-                            break;
-                    }
+                    Path p = Paths.get(System.getProperty("user.dir"), "resources" , "images", "pokemon", row.getItem().getId() + "_" + row.getItem().getName().replace(" ", "_") + ".png");
+                    InputStream input = null;
+                    try {
+                        input = new FileInputStream(p.toString());
+                    } catch (FileNotFoundException e) {}
+                    ((TextField)((VBox) (teamGrid.getChildren().get(counter[0]))).getChildren().get(1)).setText(row.getItem().getName());
+                    ((ImageView)((VBox) (teamGrid.getChildren().get(counter[0]))).getChildren().get(0)).setImage(new Image(input));
+                    counter[0] = (counter[0]+1)%6;
                 }
                 Pokemon rowData = row.getItem();
                 name.setText(rowData.getName());
-                primarytype.setValue(rowData.getType1().toString());
-                secondarytype.setValue(rowData.getType2().toString());
+                primarytype.setValue(rowData.getType1().toString().toLowerCase());
+                secondarytype.setValue(rowData.getType2().toString().toLowerCase());
                 total.setText(String.valueOf(rowData.getTotal()));
                 hp.setText(String.valueOf(rowData.getHp()));
                 attack.setText(String.valueOf(rowData.getAttack()));
@@ -694,28 +630,36 @@ public class PokeController {
         addTeam.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String team = teamName.getText() + ": " + Pokemon1.getText() + ", " + Pokemon2.getText() + ", " + Pokemon3.getText() + ", " + Pokemon4.getText() + ", " + Pokemon5.getText() + ", " + Pokemon6.getText() + ", " + Pokemon7.getText() + ", " + Pokemon8.getText() + ", " + Pokemon9.getText() + ", " + Pokemon10.getText();
-                if (teamName.getText().isEmpty() || Pokemon1.getText().isEmpty() || Pokemon2.getText().isEmpty() || Pokemon3.getText().isEmpty() || Pokemon4.getText().isEmpty() || Pokemon5.getText().isEmpty() || Pokemon6.getText().isEmpty() || Pokemon7.getText().isEmpty() || Pokemon8.getText().isEmpty() || Pokemon9.getText().isEmpty() || Pokemon10.getText().isEmpty()) {
+                String team = "";
+                try {
+                    if (teamName.getText().isEmpty())
+                        throw new Exception();
+                    team = teamName.getText() + ":";
+                    for (int i = 0; i < teamGrid.getChildren().size(); i++) {
+                        String name = ((TextField)((VBox) teamGrid.getChildren().get(i)).getChildren().get(1)).getText();
+                        if (name.isEmpty()) {
+                            throw new Exception();
+                        }
+                        team += name;
+                        if (i < teamGrid.getChildren().size() - 1)
+                            team += ",";
+                    }
+
+                } catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText("Please fill in all fields");
                     alert.showAndWait();
                     return;
-                } else {
-                    teamList.getItems().add(team);
-
-                    teamName.setText("");
-                    Pokemon1.setText("");
-                    Pokemon2.setText("");
-                    Pokemon3.setText("");
-                    Pokemon4.setText("");
-                    Pokemon5.setText("");
-                    Pokemon6.setText("");
-                    Pokemon7.setText("");
-                    Pokemon8.setText("");
-                    Pokemon9.setText("");
-                    Pokemon10.setText("");
                 }
+                teamList.getItems().add(team);
+
+                teamName.setText("");
+                for (Node obj :
+                        teamGrid.getChildren()) {
+                    ((TextField) obj).setText("");
+                }
+
             }
         });
 
@@ -726,36 +670,53 @@ public class PokeController {
                 String[] team = selectedTeam.split(": ");
                 String[] pokemon = team[1].split(", ");
                 teamName.setText(team[0]);
-                Pokemon1.setText(pokemon[0]);
-                Pokemon2.setText(pokemon[1]);
-                Pokemon3.setText(pokemon[2]);
-                Pokemon4.setText(pokemon[3]);
-                Pokemon5.setText(pokemon[4]);
-                Pokemon6.setText(pokemon[5]);
-                Pokemon7.setText(pokemon[6]);
-                Pokemon8.setText(pokemon[7]);
-                Pokemon9.setText(pokemon[8]);
-                Pokemon10.setText(pokemon[9]);
+                for (int i = 0; i < 6; i++) {
+                    ((TextField) teamGrid.getChildren()).setText(pokemon[i]);
+                }
             }
         });
 
         safeTeam.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String team = teamName.getText() + ": " + Pokemon1.getText() + ", " + Pokemon2.getText() + ", " + Pokemon3.getText() + ", " + Pokemon4.getText() + ", " + Pokemon5.getText() + ", " + Pokemon6.getText() + ", " + Pokemon7.getText() + ", " + Pokemon8.getText() + ", " + Pokemon9.getText() + ", " + Pokemon10.getText();
+
+                String team = "";
+                try {
+                    if (teamName.getText().isEmpty())
+                        throw new Exception();
+                    team = teamName.getText() + ":";
+                    for (int i = 0; i < teamGrid.getChildren().size(); i++) {
+                        String name = ((TextField)((VBox) teamGrid.getChildren().get(i)).getChildren().get(1)).getText();
+                        if (name.isEmpty()) {
+                            throw new Exception();
+                        }
+                        team += name;
+                        if (i < teamGrid.getChildren().size() - 1)
+                            team += ",";
+                    }
+
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Please fill in all fields");
+                    alert.showAndWait();
+                    return;
+                }
+
                 teamList.getItems().remove(teamList.getSelectionModel().getSelectedItem());
                 teamList.getItems().add(team);
                 teamName.setText("");
-                Pokemon1.setText("");
-                Pokemon2.setText("");
-                Pokemon3.setText("");
-                Pokemon4.setText("");
-                Pokemon5.setText("");
-                Pokemon6.setText("");
-                Pokemon7.setText("");
-                Pokemon8.setText("");
-                Pokemon9.setText("");
-                Pokemon10.setText("");
+                for (Node obj :
+                        teamGrid.getChildren()) {
+                    ((TextField)((VBox) obj).getChildren().get(1)).setText("");
+                    Path p = Paths.get(System.getProperty("user.dir"), "resources", "images", "plus.png");
+                    InputStream input = null;
+                    try {
+                        input = new FileInputStream(p.toString());
+                        ((ImageView)((VBox) obj).getChildren().get(0)).setImage(new Image(input));
+                    } catch (FileNotFoundException e) {
+                    }
+                }
             }
         });
 
@@ -769,7 +730,6 @@ public class PokeController {
 
         return root;
     }
-
 
     public void fillPokeTable() {
         ArrayList<Pokemon> pokeList = CSVReader.read();
@@ -813,7 +773,6 @@ public class PokeController {
             if (poke.getSpeed() > highestSpeed)
                 highestSpeed = poke.getSpeed();
 
-            System.out.println(poke.name.toLowerCase());
         }
     }
 }

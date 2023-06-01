@@ -13,10 +13,10 @@ public class PokecenterApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Scene scene = new Scene(root, 930, 450);
+        Scene scene = new Scene(root, 820, 900);
         stage.setTitle("Poke Center");
         stage.setScene(scene);
-        //stage.setResizable(false);
+        stage.setResizable(false);
         stage.show();
     }
 

@@ -32,19 +32,6 @@ public class CSVReader {
         csvHeader = lines.get(0);
         lines.remove(0);
 
-        int i = 0;
-        while(i < lines.size()-1)
-        {
-            if(lines.get(i).split(",")[0].equals(lines.get(i+1).split(",")[0]))
-            {
-                lines.remove(i+1);
-            }
-            else
-            {
-                i++;
-            }
-        }
-
         for (String line :
                 lines) {
             line.replace(",,", ", ,");
@@ -53,7 +40,7 @@ public class CSVReader {
             try
             {
                 int newID = Integer.parseInt(parts[0]);
-                String newName = parts[1];
+                String newName = parts[1].replace("_", " ");
                 Type newType1 = Type.valueOf(parts[2].toUpperCase());
                 Optional<Type> newType2;
                 try {
@@ -101,15 +88,6 @@ public class CSVReader {
             Alert al = new Alert(Alert.AlertType.ERROR, "Sicherung fehlgeschlagen");
             al.show();
             return;
-        }
-    }
-
-    public static void main(String[] args) {
-        ArrayList<Pokemon> pokelist = CSVReader.read();
-
-        for (Pokemon pokemon :
-                pokelist) {
-            System.out.println(pokemon.toString());
         }
     }
 }
